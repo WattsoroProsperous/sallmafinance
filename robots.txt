@@ -1,11 +1,11 @@
 # Robots.txt pour SALLMA FINANCE
-# https://sallmafinance.com
+# https://sallma-finance.com
 
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://sallmafinance.com/sitemap.xml
+Sitemap: https://sallma-finance.com/sitemap.xml
 
 # Autoriser tous les robots de recherche
 User-agent: Googlebot

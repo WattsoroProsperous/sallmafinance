@@ -2,8 +2,8 @@
 # SALLMA FINANCE
 
 # Redirect www to non-www
-https://www.sallmafinance.com/* https://sallmafinance.com/:splat 301!
+https://www.sallma-finance.com/* https://sallma-finance.com/:splat 301!
 
 # Redirect HTTP to HTTPS
-http://sallmafinance.com/* https://sallmafinance.com/:splat 301!
-http://www.sallmafinance.com/* https://sallmafinance.com/:splat 301!
+http://sallma-finance.com/* https://sallma-finance.com/:splat 301!
+http://www.sallma-finance.com/* https://sallma-finance.com/:splat 301!
