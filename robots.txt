@@ -1,0 +1,29 @@
+# Robots.txt pour SALLMA FINANCE
+# https://sallmafinance.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://sallmafinance.com/sitemap.xml
+
+# Autoriser tous les robots de recherche
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: MSNBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Bloquer les fichiers sensibles
+Disallow: /*.json$
+Disallow: /assets/*.psd
+Disallow: /assets/*.ai

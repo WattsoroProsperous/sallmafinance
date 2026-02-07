@@ -215,14 +215,14 @@ h1, h2, h3, h4 {
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg,
-    #0c4a6e 0%,
-    #0369a1 15%,
-    #0284c7 25%,
-    #0ea5e9 40%,
-    #38bdf8 55%,
-    #7dd3fc 70%,
-    #bae6fd 85%,
-    #e0f2fe 100%
+    #082f49 0%,
+    #0c4a6e 12%,
+    #0369a1 25%,
+    #0284c7 40%,
+    #0ea5e9 55%,
+    #38bdf8 70%,
+    #7dd3fc 85%,
+    #bae6fd 100%
   );
 }
 
@@ -993,12 +993,13 @@ h1, h2, h3, h4 {
   .hero {
     padding: 120px 0 80px;
     background: linear-gradient(180deg,
-      #0c4a6e 0%,
-      #0369a1 20%,
-      #0ea5e9 40%,
-      #38bdf8 60%,
-      #7dd3fc 80%,
-      #e0f2fe 100%
+      #082f49 0%,
+      #0c4a6e 15%,
+      #0369a1 30%,
+      #0ea5e9 50%,
+      #38bdf8 70%,
+      #7dd3fc 90%,
+      #bae6fd 100%
     );
   }
 

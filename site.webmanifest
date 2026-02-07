@@ -1,0 +1,26 @@
+{
+  "name": "SALLMA FINANCE - Bureau de Change Agréé Abidjan",
+  "short_name": "SALLMA FINANCE",
+  "description": "Bureau de change agréé à Abidjan Treichville. Échange de devises (Euro, Dollar, Dirham, Franc CFA), dépôts Wave, Orange Money, Moov Money, MTN MoMo. Transactions sécurisées pour gros montants.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0c4a6e",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "categories": ["finance", "business"],
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
