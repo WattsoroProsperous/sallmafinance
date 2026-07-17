@@ -52,15 +52,16 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      justify-content: center;
     }
 
     /* ================================================
-       HEADER
+       HEADER — tout en clamp()
        ================================================ */
     .dash-header {
       background: linear-gradient(110deg, #071e3d 0%, #0b2d59 50%, #134074 100%);
       color: white;
-      padding: 0.9rem 2.5rem;
+      padding: clamp(0.6rem, 1.2vh, 1.2rem) clamp(1.2rem, 3vw, 3.5rem);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -68,39 +69,30 @@
       box-shadow: 0 4px 30px rgba(7, 30, 61, 0.5);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
+    .brand { display: flex; align-items: center; gap: clamp(0.5rem, 1vw, 1rem); }
 
-    .brand-logo { height: 54px; flex-shrink: 0; }
+    .brand-logo { height: clamp(36px, 5.5vh, 72px); flex-shrink: 0; }
 
-    .brand-logo img {
-      height: 100%;
-      width: auto;
-      object-fit: contain;
-      display: block;
-    }
+    .brand-logo img { height: 100%; width: auto; object-fit: contain; display: block; }
 
     .brand-text .bname {
-      font-size: 1.08rem;
+      font-size: clamp(0.78rem, 1.1vw, 1.5rem);
       font-weight: 800;
-      letter-spacing: 1.8px;
+      letter-spacing: clamp(1px, 0.15vw, 2.5px);
       text-transform: uppercase;
     }
 
     .brand-text .bsub {
-      font-size: 0.62rem;
+      font-size: clamp(0.52rem, 0.65vw, 0.9rem);
       opacity: 0.45;
       letter-spacing: 0.4px;
-      margin-top: 0.12rem;
+      margin-top: 0.1rem;
     }
 
     .header-clock { text-align: right; }
 
     #clock {
-      font-size: 1.9rem;
+      font-size: clamp(1.2rem, 2vw, 2.8rem);
       font-weight: 700;
       font-variant-numeric: tabular-nums;
       letter-spacing: 2px;
@@ -108,9 +100,9 @@
     }
 
     #clockDate {
-      font-size: 0.63rem;
+      font-size: clamp(0.52rem, 0.65vw, 0.9rem);
       opacity: 0.45;
-      margin-top: 0.18rem;
+      margin-top: 0.15rem;
       text-transform: capitalize;
     }
 
@@ -119,7 +111,7 @@
        ================================================ */
     .page-title {
       text-align: center;
-      padding: 2rem 1rem 1rem;
+      padding: clamp(0.8rem, 2vh, 2.5rem) 1rem clamp(0.4rem, 1vh, 1.2rem);
       position: relative;
       overflow: hidden;
     }
@@ -128,7 +120,7 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 10rem;
+      font-size: clamp(5rem, 10vw, 14rem);
       font-weight: 900;
       color: rgba(12, 52, 96, 0.04);
       pointer-events: none;
@@ -140,40 +132,35 @@
     .page-title .bg-sym.right { right: 4%; }
 
     .page-title h1 {
-      font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+      font-size: clamp(1.6rem, 2.8vw, 4.5rem);
       font-weight: 900;
       color: var(--navy);
-      letter-spacing: 5px;
+      letter-spacing: clamp(3px, 0.4vw, 8px);
       text-transform: uppercase;
       line-height: 1;
     }
 
     .mise-a-jour {
-      font-size: 0.78rem;
+      font-size: clamp(0.65rem, 0.8vw, 1.1rem);
       color: var(--muted);
       font-style: italic;
-      margin-top: 0.5rem;
+      margin-top: clamp(0.3rem, 0.5vh, 0.8rem);
     }
 
     /* ================================================
        RATE CARDS
        ================================================ */
     .rates-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: clamp(0.4rem, 1vh, 1rem) clamp(1.5rem, 4vw, 5rem);
+      padding: clamp(0.5rem, 1.2vh, 1.5rem) clamp(1.5rem, 4vw, 6rem);
     }
 
     .rates-grid {
       display: grid;
-      gap: 1.25rem;
+      gap: clamp(0.75rem, 1.5vw, 2rem);
     }
 
     .rates-grid.primary {
-      flex: 1;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 1fr;
     }
 
     /* ── Card ── */
@@ -181,12 +168,13 @@
       display: flex;
       align-items: stretch;
       background: var(--card);
-      border-radius: var(--radius);
+      border-radius: clamp(12px, 1.5vw, 24px);
       overflow: hidden;
       box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,0.9);
       transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s;
       min-width: 0;
+      min-height: clamp(110px, 17vh, 260px);
     }
 
     .rate-card:hover {
@@ -198,39 +186,34 @@
     .card-body {
       flex: 1;
       min-width: 0;
-      padding: 1.5rem 1.1rem 1.5rem 1.6rem;
+      padding: clamp(1rem, 2.5vh, 3rem) clamp(0.8rem, 1.2vw, 1.8rem);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 0.9rem;
+      gap: clamp(0.5rem, 1.2vh, 1.2rem);
     }
 
-    /* ── Drapeaux réels ── */
+    /* ── Drapeaux ── */
     .card-flags {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: clamp(0.4rem, 0.8vw, 1rem);
     }
 
     .flag-img {
-      width: 64px;
-      height: 42px;
-      border-radius: 9px;
+      width: clamp(44px, 5.5vw, 96px);
+      height: clamp(29px, 3.7vw, 64px);
+      border-radius: clamp(6px, 0.7vw, 12px);
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
       flex-shrink: 0;
       background: #e2e8f0;
     }
 
-    .flag-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .flag-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .flag-arrow {
-      font-size: 1rem;
+      font-size: clamp(0.75rem, 1vw, 1.4rem);
       color: #94a3b8;
       font-weight: 700;
       flex-shrink: 0;
@@ -240,7 +223,7 @@
     .card-info { min-width: 0; }
 
     .c-pair {
-      font-size: 0.85rem;
+      font-size: clamp(0.72rem, 1vw, 1.4rem);
       font-weight: 800;
       color: var(--navy);
       letter-spacing: 0.3px;
@@ -250,7 +233,7 @@
     }
 
     .c-sub {
-      font-size: 0.73rem;
+      font-size: clamp(0.62rem, 0.85vw, 1.15rem);
       font-weight: 600;
       color: var(--navy-light);
       opacity: 0.65;
@@ -258,8 +241,8 @@
     }
 
     .c-eq {
-      margin-top: 0.4rem;
-      font-size: 0.66rem;
+      margin-top: clamp(0.2rem, 0.4vh, 0.6rem);
+      font-size: clamp(0.56rem, 0.72vw, 1rem);
       color: var(--muted);
       font-weight: 500;
     }
@@ -267,18 +250,18 @@
     /* ── Zone droite (panneau navy) ── */
     .vbox {
       background: var(--navy);
-      width: 165px;
+      width: clamp(120px, 14vw, 260px);
       flex-shrink: 0;
-      padding: 1.3rem 1.3rem;
+      padding: clamp(0.8rem, 1.5vw, 2rem);
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       justify-content: center;
-      gap: 0.25rem;
+      gap: clamp(0.15rem, 0.3vh, 0.5rem);
     }
 
     .v-amount {
-      font-size: 2rem;
+      font-size: clamp(1.3rem, 2.2vw, 3.8rem);
       font-weight: 900;
       color: white;
       line-height: 1;
@@ -288,7 +271,7 @@
     }
 
     .v-unit {
-      font-size: 0.58rem;
+      font-size: clamp(0.48rem, 0.6vw, 0.85rem);
       color: rgba(255,255,255,0.35);
       letter-spacing: 1.5px;
       text-transform: uppercase;
@@ -298,23 +281,22 @@
       display: inline-flex;
       align-items: center;
       gap: 0.22rem;
-      margin-top: 0.35rem;
-      font-size: 0.75rem;
+      margin-top: clamp(0.2rem, 0.4vh, 0.6rem);
+      font-size: clamp(0.6rem, 0.78vw, 1.05rem);
       font-weight: 700;
-      padding: 0.2rem 0.55rem;
+      padding: clamp(0.15rem, 0.3vh, 0.35rem) clamp(0.35rem, 0.5vw, 0.75rem);
       border-radius: 100px;
     }
 
     .v-change.up   { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
     .v-change.down { background: rgba(248, 113, 113, 0.15); color: #f87171; }
     .v-change.flat { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); }
-
-    .v-change .arr { font-size: 0.65rem; line-height: 1; }
+    .v-change .arr { font-size: 0.8em; line-height: 1; }
 
     /* Skeleton */
     .v-amount.skel {
-      min-width: 100px;
-      height: 2rem;
+      min-width: 80px;
+      height: 1em;
       border-radius: 6px;
       color: transparent;
       background: linear-gradient(90deg,
@@ -339,39 +321,43 @@
        BOTTOM ROW
        ================================================ */
     .bottom-row {
-      flex: 0 0 auto;
-      padding: 0 clamp(1.5rem, 4vw, 5rem) clamp(0.75rem, 1.5vh, 1.5rem);
+      padding: 0 clamp(1.5rem, 4vw, 6rem) clamp(0.6rem, 1.5vh, 2rem);
     }
 
     .sidebar {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+      gap: clamp(0.75rem, 1.5vw, 2rem);
     }
 
     .info-card {
       background: var(--card);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.4rem;
+      border-radius: clamp(12px, 1.5vw, 24px);
+      padding: clamp(0.8rem, 1.5vh, 1.8rem) clamp(0.9rem, 1.4vw, 2rem);
       box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,0.9);
     }
 
     .ic-label {
-      font-size: 0.6rem;
+      font-size: clamp(0.52rem, 0.65vw, 0.9rem);
       font-weight: 700;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 1.2px;
-      margin-bottom: 0.8rem;
+      margin-bottom: clamp(0.5rem, 1vh, 1.2rem);
     }
 
     /* Refresh ring */
-    .rf-wrap { display: flex; align-items: center; gap: 1rem; }
+    .rf-wrap { display: flex; align-items: center; gap: clamp(0.6rem, 1.2vw, 1.5rem); }
 
     .ring-outer { position: relative; flex-shrink: 0; }
 
-    .ring-outer svg { transform: rotate(-90deg); display: block; }
+    .ring-outer svg {
+      transform: rotate(-90deg);
+      display: block;
+      width: clamp(52px, 6vw, 95px);
+      height: clamp(52px, 6vw, 95px);
+    }
 
     .ring-track    { fill: none; stroke: #e2e8f0; stroke-width: 5; }
     .ring-progress {
@@ -390,14 +376,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: clamp(0.75rem, 1vw, 1.4rem);
       font-weight: 700;
       color: var(--navy);
       font-variant-numeric: tabular-nums;
     }
 
-    .rf-info .rfl { font-size: 0.78rem; font-weight: 600; color: var(--text); }
-    .rf-info .rfs { font-size: 0.67rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.5; }
+    .rf-info .rfl { font-size: clamp(0.65rem, 0.9vw, 1.2rem); font-weight: 600; color: var(--text); }
+    .rf-info .rfs { font-size: clamp(0.58rem, 0.75vw, 1rem); color: var(--muted); margin-top: 0.2rem; line-height: 1.5; }
 
     /* Calculator */
     .calc-sel {
@@ -406,13 +392,13 @@
       color: white;
       border: none;
       border-radius: var(--radius-sm);
-      padding: 0.5rem 0.65rem;
-      font-size: 0.75rem;
+      padding: clamp(0.35rem, 0.7vh, 0.7rem) clamp(0.5rem, 0.8vw, 0.9rem);
+      font-size: clamp(0.62rem, 0.8vw, 1.05rem);
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
       outline: none;
-      margin-bottom: 0.75rem;
+      margin-bottom: clamp(0.5rem, 1vh, 1rem);
     }
 
     .calc-row {
@@ -427,8 +413,8 @@
       background: #f1f5f9;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 0.55rem 0.7rem;
-      font-size: 1rem;
+      padding: clamp(0.35rem, 0.7vh, 0.7rem) clamp(0.5rem, 0.7vw, 0.9rem);
+      font-size: clamp(0.8rem, 1.1vw, 1.5rem);
       font-weight: 700;
       color: var(--text);
       font-family: inherit;
@@ -441,20 +427,20 @@
     .calc-field input[readonly] { background: #f8fafc; cursor: default; color: var(--navy); }
 
     .calc-field .clabel {
-      font-size: 0.65rem;
+      font-size: clamp(0.52rem, 0.65vw, 0.9rem);
       color: var(--muted);
       text-align: right;
       margin-top: 0.25rem;
     }
 
-    .calc-arr { text-align: center; color: var(--navy-light); font-size: 1.1rem; font-weight: 700; }
+    .calc-arr { text-align: center; color: var(--navy-light); font-size: clamp(0.9rem, 1.2vw, 1.6rem); font-weight: 700; }
 
     /* Source status */
-    .src-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .src-list { display: flex; flex-direction: column; gap: clamp(0.3rem, 0.6vh, 0.7rem); }
 
-    .src-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.72rem; color: var(--text); }
+    .src-item { display: flex; align-items: center; gap: 0.45rem; font-size: clamp(0.6rem, 0.78vw, 1.05rem); color: var(--text); }
 
-    .src-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .src-dot { width: clamp(5px, 0.5vw, 9px); height: clamp(5px, 0.5vw, 9px); border-radius: 50%; flex-shrink: 0; }
     .src-dot.ok   { background: var(--green); }
     .src-dot.warn { background: #f59e0b; }
     .src-dot.err  { background: var(--red); }
@@ -465,8 +451,8 @@
     .dash-footer {
       background: var(--navy);
       color: rgba(255,255,255,0.4);
-      font-size: 0.67rem;
-      padding: 0.85rem 2.5rem;
+      font-size: clamp(0.58rem, 0.72vw, 1rem);
+      padding: clamp(0.55rem, 1vh, 1.2rem) clamp(1.2rem, 3vw, 3.5rem);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -490,20 +476,9 @@
 
     /* ── Mobile : 1 colonne ── */
     @media (max-width: 600px) {
-      .rates-grid.primary {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        flex: none;
-      }
+      .rates-grid.primary { grid-template-columns: 1fr; }
       .sidebar            { grid-template-columns: 1fr; }
-      .dash-header        { padding: 0.75rem 1rem; }
-      #clock              { font-size: 1.3rem; }
-      .v-amount           { font-size: 1.6rem; }
-      .vbox               { width: 145px; }
-      .flag-img           { width: 52px; height: 34px; }
-      .card-body          { padding: 1.2rem 0.9rem 1.2rem 1.2rem; }
-      .rates-wrap         { flex: none; padding: 0.5rem 1rem 1rem; }
-      .bottom-row         { padding: 0 1rem 1.5rem; }
+      .rate-card          { min-height: 100px; }
     }
   </style>
 </head>
