@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taux de Change | SALLMA FINANCE</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:        #0b2d59;
+      --navy-mid:    #134074;
+      --navy-light:  #1e5fa3;
+      --accent:      #0ea5e9;
+      --card:        #ffffff;
+      --green:       #4ade80;
+      --red:         #f87171;
+      --text:        #0f172a;
+      --muted:       #64748b;
+      --border:      rgba(12, 52, 96, 0.08);
+      --shadow:      0 4px 28px rgba(12, 52, 96, 0.10);
+      --shadow-lg:   0 16px 48px rgba(12, 52, 96, 0.20);
+      --radius:      20px;
+      --radius-sm:   10px;
+    }
+
+    html {
+      background: #0b2d59;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(160deg, #e8f3fd 0%, #dbeafe 50%, #eff6ff 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .tradingview-widget-container { margin-top: auto; }
+
+    /* ================================================
+       HEADER
+       ================================================ */
+    .dash-header {
+      background: linear-gradient(110deg, #071e3d 0%, #0b2d59 50%, #134074 100%);
+      color: white;
+      padding: 0.9rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 4px 30px rgba(7, 30, 61, 0.5);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-logo { height: 54px; flex-shrink: 0; }
+
+    .brand-logo img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text .bname {
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .brand-text .bsub {
+      font-size: 0.62rem;
+      opacity: 0.45;
+      letter-spacing: 0.4px;
+      margin-top: 0.12rem;
+    }
+
+    .header-clock { text-align: right; }
+
+    #clock {
+      font-size: 1.9rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    #clockDate {
+      font-size: 0.63rem;
+      opacity: 0.45;
+      margin-top: 0.18rem;
+      text-transform: capitalize;
+    }
+
+    /* ================================================
+       PAGE TITLE
+       ================================================ */
+    .page-title {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-title .bg-sym {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10rem;
+      font-weight: 900;
+      color: rgba(12, 52, 96, 0.04);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .page-title .bg-sym.left  { left: 4%; }
+    .page-title .bg-sym.right { right: 4%; }
+
+    .page-title h1 {
+      font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .mise-a-jour {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    /* ================================================
+       RATE CARDS
+       ================================================ */
+    .rates-wrap {
+      padding: 0.5rem 2rem 1rem;
+    }
+
+    .rates-grid {
+      display: grid;
+      gap: 1.25rem;
+      justify-content: center;
+    }
+
+    .rates-grid.primary {
+      grid-template-columns: repeat(3, minmax(280px, 420px));
+    }
+
+    /* ── Card ── */
+    .rate-card {
+      display: flex;
+      align-items: stretch;
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.9);
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s;
+      min-width: 0;
+    }
+
+    .rate-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ── Zone gauche ── */
+    .card-body {
+      flex: 1;
+      min-width: 0;
+      padding: 1.5rem 1.1rem 1.5rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.9rem;
+    }
+
+    /* ── Drapeaux réels ── */
+    .card-flags {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .flag-img {
+      width: 64px;
+      height: 42px;
+      border-radius: 9px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      flex-shrink: 0;
+      background: #e2e8f0;
+    }
+
+    .flag-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .flag-arrow {
+      font-size: 1rem;
+      color: #94a3b8;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── Infos paire ── */
+    .card-info { min-width: 0; }
+
+    .c-pair {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .c-sub {
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: var(--navy-light);
+      opacity: 0.65;
+      margin-top: 0.1rem;
+    }
+
+    .c-eq {
+      margin-top: 0.4rem;
+      font-size: 0.66rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Zone droite (panneau navy) ── */
+    .vbox {
+      background: var(--navy);
+      width: 165px;
+      flex-shrink: 0;
+      padding: 1.3rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .v-amount {
+      font-size: 2rem;
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    .v-unit {
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .v-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.22rem;
+      margin-top: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+    }
+
+    .v-change.up   { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+    .v-change.down { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+    .v-change.flat { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); }
+
+    .v-change .arr { font-size: 0.65rem; line-height: 1; }
+
+    /* Skeleton */
+    .v-amount.skel {
+      min-width: 100px;
+      height: 2rem;
+      border-radius: 6px;
+      color: transparent;
+      background: linear-gradient(90deg,
+        rgba(255,255,255,0.07) 25%,
+        rgba(255,255,255,0.18) 50%,
+        rgba(255,255,255,0.07) 75%);
+      background-size: 200% 100%;
+      animation: skAnim 1.4s infinite;
+    }
+
+    @keyframes skAnim {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes flashUp   { 0% { background: #1a4731; } 100% { background: var(--navy); } }
+    @keyframes flashDown { 0% { background: #7f1d1d; } 100% { background: var(--navy); } }
+    .vbox.flash-up   { animation: flashUp   0.8s ease-out; }
+    .vbox.flash-down { animation: flashDown 0.8s ease-out; }
+
+    /* ================================================
+       BOTTOM ROW
+       ================================================ */
+    .bottom-row {
+      padding: 0 2rem 1.5rem;
+    }
+
+    .sidebar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(280px, 420px));
+      gap: 1.25rem;
+      justify-content: center;
+    }
+
+    .info-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .ic-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* Refresh ring */
+    .rf-wrap { display: flex; align-items: center; gap: 1rem; }
+
+    .ring-outer { position: relative; flex-shrink: 0; }
+
+    .ring-outer svg { transform: rotate(-90deg); display: block; }
+
+    .ring-track    { fill: none; stroke: #e2e8f0; stroke-width: 5; }
+    .ring-progress {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 188.5;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .ring-count {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rf-info .rfl { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+    .rf-info .rfs { font-size: 0.67rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.5; }
+
+    /* Calculator */
+    .calc-sel {
+      width: 100%;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      margin-bottom: 0.75rem;
+    }
+
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 1.5rem 1fr;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .calc-field input {
+      width: 100%;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.7rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      font-family: inherit;
+      text-align: right;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .calc-field input:focus { border-color: var(--navy-light); background: white; }
+    .calc-field input[readonly] { background: #f8fafc; cursor: default; color: var(--navy); }
+
+    .calc-field .clabel {
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+
+    .calc-arr { text-align: center; color: var(--navy-light); font-size: 1.1rem; font-weight: 700; }
+
+    /* Source status */
+    .src-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .src-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.72rem; color: var(--text); }
+
+    .src-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .src-dot.ok   { background: var(--green); }
+    .src-dot.warn { background: #f59e0b; }
+    .src-dot.err  { background: var(--red); }
+
+    /* ================================================
+       FOOTER
+       ================================================ */
+    .dash-footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.67rem;
+      padding: 0.85rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .dash-footer .fsrc { font-weight: 600; color: rgba(255,255,255,0.7); }
+    .dash-footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .dash-footer a:hover { color: white; }
+
+    /* ================================================
+       RESPONSIVE
+       ================================================ */
+    @media (max-width: 960px) {
+      .rates-grid.primary { grid-template-columns: repeat(2, minmax(270px, 420px)); }
+      .sidebar            { grid-template-columns: repeat(2, minmax(270px, 420px)); }
+    }
+
+    @media (max-width: 620px) {
+      .rates-grid.primary { grid-template-columns: minmax(0, 420px); }
+      .sidebar            { grid-template-columns: minmax(0, 420px); }
+      .dash-header        { padding: 0.75rem 1rem; }
+      #clock              { font-size: 1.3rem; }
+      .v-amount           { font-size: 1.6rem; }
+      .vbox               { width: 145px; }
+      .flag-img           { width: 52px; height: 34px; }
+      .card-body          { padding: 1.2rem 0.9rem 1.2rem 1.2rem; }
+      .rates-wrap         { padding: 0.5rem 1rem 1rem; }
+      .bottom-row         { padding: 0 1rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="dash-header">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="logo.png" alt="SALLMA FINANCE">
+      </div>
+      <div class="brand-text">
+        <div class="bname">SALLMA FINANCE</div>
+        <div class="bsub">Bureau de Change Agréé · Treichville, Abidjan</div>
+      </div>
+    </div>
+    <div class="header-clock">
+      <div id="clock">--:--:--</div>
+      <div id="clockDate">...</div>
+    </div>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <div class="page-title">
+    <div class="bg-sym left">€</div>
+    <div class="bg-sym right">$</div>
+    <h1>Taux d'Échange</h1>
+    <p class="mise-a-jour" id="updateLabel">Mise à jour : chargement…</p>
+  </div>
+
+  <!-- RATE CARDS -->
+  <div class="rates-wrap">
+    <div class="rates-grid primary">
+
+      <!-- EUR / XOF -->
+      <div class="rate-card">
+        <div class="card-body">
+          <div class="card-flags">
+            <div class="flag-img"><img src="drapeau_france.png" alt="EUR"></div>
+            <div class="flag-arrow">↔</div>
+            <div class="flag-img"><img src="drapeau_ivoire.png" alt="XOF"></div>
+          </div>
+          <div class="card-info">
+            <div class="c-pair">EURO (EUR)</div>
+            <div class="c-sub">FRANC CFA (XOF)</div>
+            <div class="c-eq">1 EUR =</div>
+          </div>
+        </div>
+        <div class="vbox" id="vbox-EUR-XOF">
+          <div class="v-amount skel" id="val-EUR-XOF">---</div>
+          <div class="v-unit">FCFA</div>
+          <div class="v-change flat" id="chg-EUR-XOF">
+            <span class="arr">▲</span><span id="pct-EUR-XOF">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- USD / XOF -->
+      <div class="rate-card">
+        <div class="card-body">
+          <div class="card-flags">
+            <div class="flag-img"><img src="drapeau_us.png" alt="USD"></div>
+            <div class="flag-arrow">↔</div>
+            <div class="flag-img"><img src="drapeau_ivoire.png" alt="XOF"></div>
+          </div>
+          <div class="card-info">
+            <div class="c-pair">DOLLAR US (USD)</div>
+            <div class="c-sub">FRANC CFA (XOF)</div>
+            <div class="c-eq">1 USD =</div>
+          </div>
+        </div>
+        <div class="vbox" id="vbox-USD-XOF">
+          <div class="v-amount skel" id="val-USD-XOF">---</div>
+          <div class="v-unit">FCFA</div>
+          <div class="v-change flat" id="chg-USD-XOF">
+            <span class="arr">▲</span><span id="pct-USD-XOF">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EUR / USD -->
+      <div class="rate-card">
+        <div class="card-body">
+          <div class="card-flags">
+            <div class="flag-img"><img src="drapeau_france.png" alt="EUR"></div>
+            <div class="flag-arrow">↔</div>
+            <div class="flag-img"><img src="drapeau_us.png" alt="USD"></div>
+          </div>
+          <div class="card-info">
+            <div class="c-pair">EURO (EUR)</div>
+            <div class="c-sub">DOLLAR US (USD)</div>
+            <div class="c-eq">1 EUR =</div>
+          </div>
+        </div>
+        <div class="vbox" id="vbox-EUR-USD">
+          <div class="v-amount skel" id="val-EUR-USD">---</div>
+          <div class="v-unit">USD</div>
+          <div class="v-change flat" id="chg-EUR-USD">
+            <span class="arr">▲</span><span id="pct-EUR-USD">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+    <div class="sidebar">
+
+      <!-- Actualisation -->
+      <div class="info-card">
+        <div class="ic-label">Actualisation automatique</div>
+        <div class="rf-wrap">
+          <div class="ring-outer">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle class="ring-track"    cx="35" cy="35" r="30"/>
+              <circle class="ring-progress" cx="35" cy="35" r="30" id="ringProg"/>
+            </svg>
+            <div class="ring-count" id="ringCount">5:00</div>
+          </div>
+          <div class="rf-info">
+            <div class="rfl">Prochaine mise à jour</div>
+            <div class="rfs">Les taux sont rafraîchis<br>toutes les 5 minutes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculateur -->
+      <div class="info-card">
+        <div class="ic-label">Calculateur rapide</div>
+        <select class="calc-sel" id="calcPair">
+          <option value="EUR-XOF">EUR  →  Franc CFA</option>
+          <option value="USD-XOF">USD  →  Franc CFA</option>
+          <option value="XOF-EUR">Franc CFA  →  EUR</option>
+          <option value="XOF-USD">Franc CFA  →  USD</option>
+        </select>
+        <div class="calc-row">
+          <div class="calc-field">
+            <input type="number" id="calcIn" value="1000" min="0" step="any">
+            <div class="clabel" id="calcFromLbl">EUR</div>
+          </div>
+          <div class="calc-arr">→</div>
+          <div class="calc-field">
+            <input type="text" id="calcOut" readonly>
+            <div class="clabel" id="calcToLbl">FCFA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statut des sources -->
+      <div class="info-card">
+        <div class="ic-label">Sources &amp; Statut</div>
+        <div class="src-list">
+          <div class="src-item">
+            <div class="src-dot ok" id="dotApi"></div>
+            <span><strong>API Devises</strong> — Taux du marché interbancaire</span>
+          </div>
+          <div class="src-item">
+            <div class="src-dot ok"></div>
+            <span><strong>XOF / EUR</strong> — Parité fixe 655,957 (BCEAO)</span>
+          </div>
+          <div class="src-item">
+            <div class="src-dot ok"></div>
+            <span><strong>Mise à jour</strong> — Automatique toutes les 5 min</span>
+          </div>
+          <div class="src-item">
+            <div class="src-dot warn"></div>
+            <span style="color:var(--muted)">Taux indicatifs · Peuvent varier</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TICKER TRADINGVIEW (avant footer) -->
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+        { "proName": "FX:EURUSD",        "title": "EUR / USD"  },
+        { "proName": "FX_IDC:USDXOF",    "title": "USD / FCFA" },
+        { "proName": "FX_IDC:EURXOF",    "title": "EUR / FCFA" },
+        { "proName": "FX:GBPUSD",        "title": "GBP / USD"  },
+        { "proName": "FX:USDCHF",        "title": "USD / CHF"  }
+      ],
+      "showSymbolLogo": true,
+      "colorTheme": "dark",
+      "isTransparent": false,
+      "displayMode": "adaptive",
+      "locale": "fr"
+    }
+    </script>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="dash-footer">
+    <span>© 2026 SALLMA FINANCE · Agrément n°00103 · Treichville, Abidjan, Côte d'Ivoire</span>
+    <span class="fsrc">Source : BCE / Banques partenaires</span>
+    <span>Powered by <a href="https://mainsou-esn.com" target="_blank" rel="noopener">Mainsou ESN</a></span>
+  </footer>
+
+  <script>
+    'use strict';
+
+    const XOF_PEG     = 655.957;
+    const REFRESH_SEC = 300;
+    const CIRC        = 2 * Math.PI * 30;
+
+    let curRates  = {};
+    let prevRates = {};
+    let loaded    = false;
+    let countdown = REFRESH_SEC;
+
+    function derive(raw) {
+      return {
+        'EUR-XOF': XOF_PEG,
+        'USD-XOF': XOF_PEG / raw.usd,
+        'EUR-USD': raw.usd,
+        'XOF-EUR': 1 / XOF_PEG,
+        'XOF-USD': raw.usd / XOF_PEG,
+      };
+    }
+
+    async function fetchToday() {
+      try {
+        const r = await fetch(
+          'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json',
+          { cache: 'no-store' }
+        );
+        if (!r.ok) throw new Error(r.status);
+        const j = await r.json();
+        return { usd: j.eur.usd, gbp: j.eur.gbp, chf: j.eur.chf, mad: j.eur.mad };
+      } catch (_) {}
+
+      try {
+        const r = await fetch('https://api.frankfurter.app/latest?from=EUR');
+        if (!r.ok) throw new Error(r.status);
+        const j = await r.json();
+        return { usd: j.rates.USD, gbp: j.rates.GBP, chf: j.rates.CHF, mad: 10.85 };
+      } catch (_) { return null; }
+    }
+
+    async function fetchYesterday() {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() - 1);
+      const ys = d.toISOString().split('T')[0];
+
+      try {
+        const r = await fetch(
+          `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${ys}/v1/currencies/eur.min.json`
+        );
+        if (!r.ok) throw new Error(r.status);
+        const j = await r.json();
+        return { usd: j.eur.usd, gbp: j.eur.gbp, chf: j.eur.chf, mad: j.eur.mad };
+      } catch (_) {}
+
+      try {
+        const r = await fetch(`https://api.frankfurter.app/${ys}?from=EUR`);
+        if (!r.ok) throw new Error(r.status);
+        const j = await r.json();
+        return { usd: j.rates.USD, gbp: j.rates.GBP, chf: j.rates.CHF, mad: 10.85 };
+      } catch (_) { return null; }
+    }
+
+    function fmt(val, dec) {
+      if (val == null || isNaN(val)) return '---';
+      return val.toLocaleString('fr-FR', {
+        minimumFractionDigits: dec,
+        maximumFractionDigits: dec,
+      });
+    }
+
+    function fmtPct(pct) {
+      if (isNaN(pct)) return { text: '—', dir: 'flat' };
+      const sign = pct >= 0 ? '+' : '';
+      const dir  = pct >  0.005 ? 'up' : pct < -0.005 ? 'down' : 'flat';
+      return { text: `${sign}${fmt(pct, 2)}%`, dir };
+    }
+
+    function updateCard(id, value, pct) {
+      const dec    = id === 'EUR-USD' ? 4 : 2;
+      const valEl  = document.getElementById(`val-${id}`);
+      const chgEl  = document.getElementById(`chg-${id}`);
+      const pctEl  = document.getElementById(`pct-${id}`);
+      const vboxEl = document.getElementById(`vbox-${id}`);
+      if (!valEl) return;
+
+      const newTxt = fmt(value, dec);
+      const changed = loaded && valEl.textContent !== newTxt;
+
+      valEl.classList.remove('skel');
+      valEl.textContent = newTxt;
+
+      if (changed && vboxEl) {
+        const { dir } = fmtPct(pct);
+        vboxEl.classList.remove('flash-up', 'flash-down');
+        void vboxEl.offsetWidth;
+        if      (dir === 'up')   vboxEl.classList.add('flash-up');
+        else if (dir === 'down') vboxEl.classList.add('flash-down');
+      }
+
+      if (chgEl && pctEl) {
+        const { text, dir } = fmtPct(pct);
+        chgEl.className = `v-change ${dir}`;
+        pctEl.textContent = text;
+        const arrEl = chgEl.querySelector('.arr');
+        if (arrEl) arrEl.textContent = dir === 'down' ? '▼' : '▲';
+      }
+    }
+
+    async function refresh() {
+      const dot = document.getElementById('dotApi');
+      if (dot) dot.className = 'src-dot warn';
+
+      const [today, yesterday] = await Promise.all([fetchToday(), fetchYesterday()]);
+
+      if (!today) {
+        if (dot) dot.className = 'src-dot err';
+        return;
+      }
+
+      if (dot) dot.className = 'src-dot ok';
+
+      const cur  = derive(today);
+      const prev = yesterday ? derive(yesterday) : cur;
+
+      ['EUR-XOF', 'USD-XOF', 'EUR-USD'].forEach(id => {
+        const pct = id === 'EUR-XOF' ? 0
+          : prev[id] ? ((cur[id] - prev[id]) / prev[id]) * 100 : 0;
+        updateCard(id, cur[id], pct);
+      });
+
+      curRates  = cur;
+      prevRates = prev;
+      loaded    = true;
+
+      const now = new Date();
+      const lbl = `Mise à jour : ${now.toLocaleDateString('fr-FR', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      })} à ${now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
+      const upEl = document.getElementById('updateLabel');
+      if (upEl) upEl.textContent = lbl;
+
+      updateCalc();
+    }
+
+    function tickClock() {
+      const now = new Date();
+      const c = document.getElementById('clock');
+      const d = document.getElementById('clockDate');
+      if (c) c.textContent = now.toLocaleTimeString('fr-FR', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      if (d) d.textContent = now.toLocaleDateString('fr-FR', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+    }
+
+    function tickRing() {
+      const prog  = document.getElementById('ringProg');
+      const count = document.getElementById('ringCount');
+      const frac  = countdown / REFRESH_SEC;
+      if (prog)  prog.style.strokeDashoffset = CIRC * (1 - frac);
+      if (count) {
+        const m = Math.floor(countdown / 60);
+        const s = countdown % 60;
+        count.textContent = `${m}:${String(s).padStart(2, '0')}`;
+      }
+    }
+
+    function updateCalc() {
+      const pairEl  = document.getElementById('calcPair');
+      const inEl    = document.getElementById('calcIn');
+      const outEl   = document.getElementById('calcOut');
+      const fromLbl = document.getElementById('calcFromLbl');
+      const toLbl   = document.getElementById('calcToLbl');
+      if (!pairEl || !inEl || !outEl) return;
+
+      const pair   = pairEl.value;
+      const amount = parseFloat(inEl.value) || 0;
+      const rate   = curRates[pair] || 1;
+      const result = amount * rate;
+
+      const LABELS = { 'EUR': 'EUR', 'USD': 'USD', 'XOF': 'FCFA' };
+      const [from, to] = pair.split('-');
+      if (fromLbl) fromLbl.textContent = LABELS[from] || from;
+      if (toLbl)   toLbl.textContent   = LABELS[to]   || to;
+
+      const dec = to === 'XOF' ? 0 : 4;
+      outEl.value = loaded
+        ? result.toLocaleString('fr-FR', {
+            minimumFractionDigits: dec,
+            maximumFractionDigits: dec,
+          })
+        : '…';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      tickClock();
+      setInterval(tickClock, 1000);
+
+      refresh();
+
+      setInterval(() => {
+        countdown--;
+        tickRing();
+        if (countdown <= 0) {
+          countdown = REFRESH_SEC;
+          refresh();
+        }
+      }, 1000);
+
+      const calcIn   = document.getElementById('calcIn');
+      const calcPair = document.getElementById('calcPair');
+      if (calcIn)   calcIn.addEventListener('input',  updateCalc);
+      if (calcPair) calcPair.addEventListener('change', updateCalc);
+    });
+  </script>
+</body>
+</html>
