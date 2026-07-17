@@ -48,7 +48,12 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .tradingview-widget-container { margin-top: auto; }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
     /* ================================================
        HEADER
@@ -572,6 +577,8 @@
     </div>
   </header>
 
+  <main class="main-content">
+
   <!-- PAGE TITLE -->
   <div class="page-title">
     <div class="bg-sym left">€</div>
@@ -725,6 +732,8 @@
 
     </div>
   </div>
+
+  </main>
 
   <!-- TICKER TRADINGVIEW (avant footer) -->
   <div class="tradingview-widget-container">
