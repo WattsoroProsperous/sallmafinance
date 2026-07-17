@@ -479,62 +479,83 @@
        RESPONSIVE
        ================================================ */
 
-    /* ── Grands écrans ≥ 1400px ── */
+    /*
+     * Principe : le contenu (rates-wrap, bottom-row) est contraint
+     * par max-width + margin auto. Le grid utilise 1fr à l'intérieur.
+     * Header et footer conservent la pleine largeur.
+     */
+
+    /* ── Conteneur centré : appliqué dès 1400px ── */
     @media (min-width: 1400px) {
-      .rates-wrap { padding: 0.5rem clamp(2rem, 5vw, 8rem) 0.75rem; }
-      .bottom-row { padding: 0 clamp(2rem, 5vw, 8rem) 0.75rem; }
+      .rates-wrap,
+      .bottom-row {
+        width: 100%;
+        max-width: 1520px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
 
       .rates-grid.primary,
       .sidebar {
         grid-template-columns: repeat(3, 1fr);
-        max-width: 1800px;
-        margin-left: auto;
-        margin-right: auto;
+        /* max-width géré par le wrapper — pas sur le grid */
+        max-width: none;
+        margin: 0;
         width: 100%;
       }
 
-      .vbox     { width: 185px; }
-      .v-amount { font-size: 2.2rem; }
-      .flag-img { width: 72px; height: 48px; }
       .page-title { padding: 1.2rem 1rem 0.6rem; }
     }
 
-    /* ── Très grands écrans ≥ 1920px (TV / écran 50") ── */
+    /* ── Écran 50" FullHD 1920px ── */
     @media (min-width: 1920px) {
-      .rates-grid.primary,
-      .sidebar { max-width: 2400px; }
+      .rates-wrap,
+      .bottom-row {
+        max-width: 1760px;
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
 
-      .dash-header        { padding: 1rem 5vw; }
-      .brand-logo         { height: 64px; }
-      .brand-text .bname  { font-size: 1.25rem; }
-      #clock              { font-size: 2.2rem; }
+      .dash-header       { padding: 1rem 4rem; }
+      .brand-logo        { height: 62px; }
+      .brand-text .bname { font-size: 1.2rem; }
+      #clock             { font-size: 2.1rem; }
 
-      .page-title         { padding: 1rem 1rem 0.5rem; }
-      .page-title h1      { font-size: 3rem; }
-      .mise-a-jour        { font-size: 0.9rem; }
+      .page-title        { padding: 1rem 1rem 0.5rem; }
+      .page-title h1     { font-size: 2.8rem; }
+      .mise-a-jour       { font-size: 0.88rem; }
 
-      .rates-wrap         { padding: 0.5rem clamp(2rem, 6vw, 10rem) 0.75rem; }
-      .bottom-row         { padding: 0 clamp(2rem, 6vw, 10rem) 0.75rem; }
+      .card-body         { padding: 1.7rem 1.2rem 1.7rem 1.8rem; gap: 1rem; }
+      .flag-img          { width: 80px; height: 53px; border-radius: 10px; }
+      .c-pair            { font-size: 0.95rem; }
+      .c-sub             { font-size: 0.82rem; }
+      .vbox              { width: 210px; }
+      .v-amount          { font-size: 2.4rem; }
+      .v-change          { font-size: 0.82rem; margin-top: 0.45rem; }
 
-      .card-body          { padding: 1.8rem 1.2rem 1.8rem 1.8rem; gap: 1rem; }
-      .flag-img           { width: 84px; height: 56px; border-radius: 11px; }
-      .c-pair             { font-size: 1rem; }
-      .c-sub              { font-size: 0.85rem; }
-      .c-eq               { font-size: 0.75rem; }
-      .vbox               { width: 220px; }
-      .v-amount           { font-size: 2.6rem; }
-      .v-unit             { font-size: 0.65rem; }
-      .v-change           { font-size: 0.85rem; margin-top: 0.5rem; }
+      .info-card         { padding: 1.4rem 1.6rem; }
+      .rf-info .rfl      { font-size: 0.88rem; }
+      .calc-field input  { font-size: 1.1rem; }
 
-      .info-card          { padding: 1.5rem 1.8rem; }
-      .ic-label           { font-size: 0.7rem; margin-bottom: 1rem; }
-      .rf-info .rfl       { font-size: 0.9rem; }
-      .rf-info .rfs       { font-size: 0.78rem; }
-      .calc-sel           { font-size: 0.88rem; padding: 0.6rem 0.8rem; }
-      .calc-field input   { font-size: 1.15rem; }
-      .src-item           { font-size: 0.82rem; }
+      .dash-footer       { padding: 0.9rem 4rem; font-size: 0.74rem; }
+    }
 
-      .dash-footer        { padding: 1rem 5vw; font-size: 0.76rem; }
+    /* ── 4K / très grand écran ≥ 2560px ── */
+    @media (min-width: 2560px) {
+      .rates-wrap,
+      .bottom-row {
+        max-width: 2200px;
+        padding-left: 4rem;
+        padding-right: 4rem;
+      }
+
+      .dash-header       { padding: 1.2rem 6rem; }
+      .page-title h1     { font-size: 3.5rem; }
+      .vbox              { width: 260px; }
+      .v-amount          { font-size: 3rem; }
+      .flag-img          { width: 96px; height: 64px; border-radius: 13px; }
     }
 
     /* ── Tablette : 2 colonnes ── */
