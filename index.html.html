@@ -52,7 +52,6 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
     }
 
     /* ================================================
@@ -160,7 +159,10 @@
        RATE CARDS
        ================================================ */
     .rates-wrap {
-      padding: 0.5rem clamp(1.5rem, 4vw, 5rem) 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(0.4rem, 1vh, 1rem) clamp(1.5rem, 4vw, 5rem);
     }
 
     .rates-grid {
@@ -169,7 +171,9 @@
     }
 
     .rates-grid.primary {
+      flex: 1;
       grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr;
     }
 
     /* ── Card ── */
@@ -335,7 +339,8 @@
        BOTTOM ROW
        ================================================ */
     .bottom-row {
-      padding: 0 clamp(1.5rem, 4vw, 5rem) 1.5rem;
+      flex: 0 0 auto;
+      padding: 0 clamp(1.5rem, 4vw, 5rem) clamp(0.75rem, 1.5vh, 1.5rem);
     }
 
     .sidebar {
@@ -485,7 +490,11 @@
 
     /* ── Mobile : 1 colonne ── */
     @media (max-width: 600px) {
-      .rates-grid.primary { grid-template-columns: 1fr; }
+      .rates-grid.primary {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        flex: none;
+      }
       .sidebar            { grid-template-columns: 1fr; }
       .dash-header        { padding: 0.75rem 1rem; }
       #clock              { font-size: 1.3rem; }
@@ -493,7 +502,7 @@
       .vbox               { width: 145px; }
       .flag-img           { width: 52px; height: 34px; }
       .card-body          { padding: 1.2rem 0.9rem 1.2rem 1.2rem; }
-      .rates-wrap         { padding: 0.5rem 1rem 1rem; }
+      .rates-wrap         { flex: none; padding: 0.5rem 1rem 1rem; }
       .bottom-row         { padding: 0 1rem 1.5rem; }
     }
   </style>
