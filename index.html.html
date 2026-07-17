@@ -473,11 +473,72 @@
     /* ================================================
        RESPONSIVE
        ================================================ */
+
+    /* ── Grands écrans ≥ 1400px ── */
+    @media (min-width: 1400px) {
+      .rates-wrap { padding: 0.5rem clamp(2rem, 5vw, 8rem) 0.75rem; }
+      .bottom-row { padding: 0 clamp(2rem, 5vw, 8rem) 0.75rem; }
+
+      .rates-grid.primary,
+      .sidebar {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1800px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+      }
+
+      .vbox     { width: 185px; }
+      .v-amount { font-size: 2.2rem; }
+      .flag-img { width: 72px; height: 48px; }
+      .page-title { padding: 1.2rem 1rem 0.6rem; }
+    }
+
+    /* ── Très grands écrans ≥ 1920px (TV / écran 50") ── */
+    @media (min-width: 1920px) {
+      .rates-grid.primary,
+      .sidebar { max-width: 2400px; }
+
+      .dash-header        { padding: 1rem 5vw; }
+      .brand-logo         { height: 64px; }
+      .brand-text .bname  { font-size: 1.25rem; }
+      #clock              { font-size: 2.2rem; }
+
+      .page-title         { padding: 1rem 1rem 0.5rem; }
+      .page-title h1      { font-size: 3rem; }
+      .mise-a-jour        { font-size: 0.9rem; }
+
+      .rates-wrap         { padding: 0.5rem clamp(2rem, 6vw, 10rem) 0.75rem; }
+      .bottom-row         { padding: 0 clamp(2rem, 6vw, 10rem) 0.75rem; }
+
+      .card-body          { padding: 1.8rem 1.2rem 1.8rem 1.8rem; gap: 1rem; }
+      .flag-img           { width: 84px; height: 56px; border-radius: 11px; }
+      .c-pair             { font-size: 1rem; }
+      .c-sub              { font-size: 0.85rem; }
+      .c-eq               { font-size: 0.75rem; }
+      .vbox               { width: 220px; }
+      .v-amount           { font-size: 2.6rem; }
+      .v-unit             { font-size: 0.65rem; }
+      .v-change           { font-size: 0.85rem; margin-top: 0.5rem; }
+
+      .info-card          { padding: 1.5rem 1.8rem; }
+      .ic-label           { font-size: 0.7rem; margin-bottom: 1rem; }
+      .rf-info .rfl       { font-size: 0.9rem; }
+      .rf-info .rfs       { font-size: 0.78rem; }
+      .calc-sel           { font-size: 0.88rem; padding: 0.6rem 0.8rem; }
+      .calc-field input   { font-size: 1.15rem; }
+      .src-item           { font-size: 0.82rem; }
+
+      .dash-footer        { padding: 1rem 5vw; font-size: 0.76rem; }
+    }
+
+    /* ── Tablette : 2 colonnes ── */
     @media (max-width: 960px) {
       .rates-grid.primary { grid-template-columns: repeat(2, minmax(270px, 420px)); }
       .sidebar            { grid-template-columns: repeat(2, minmax(270px, 420px)); }
     }
 
+    /* ── Mobile : 1 colonne ── */
     @media (max-width: 620px) {
       .rates-grid.primary { grid-template-columns: minmax(0, 420px); }
       .sidebar            { grid-template-columns: minmax(0, 420px); }
