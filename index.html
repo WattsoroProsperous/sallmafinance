@@ -37,8 +37,14 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(160deg, #e8f3fd 0%, #dbeafe 50%, #eff6ff 100%);
-      background-attachment: fixed;
+      background-color: #dbeafe;
+      background-image:
+        linear-gradient(160deg, rgba(232,243,253,0.72) 0%, rgba(219,234,254,0.72) 50%, rgba(239,246,255,0.72) 100%),
+        url('worldmap.svg');
+      background-size: cover, cover;
+      background-position: center center, center center;
+      background-repeat: no-repeat, no-repeat;
+      background-attachment: fixed, fixed;
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -53,7 +59,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: clamp(1rem, 2.5vh, 3rem);
+      gap: clamp(1.5rem, 5vh, 6rem);
     }
 
     /* ================================================
@@ -77,8 +83,8 @@
     .brand-logo img { height: 100%; width: auto; object-fit: contain; display: block; }
 
     .brand-text .bname {
-      font-size: clamp(0.78rem, 1.1vw, 1.5rem);
-      font-weight: 800;
+      font-size: clamp(1.1rem, 1.7vw, 2.2rem);
+      font-weight: 900;
       letter-spacing: clamp(1px, 0.15vw, 2.5px);
       text-transform: uppercase;
     }
@@ -499,7 +505,6 @@
       </div>
       <div class="brand-text">
         <div class="bname">SALLMA FINANCE</div>
-        <div class="bsub">Bureau de Change Agréé · Treichville, Abidjan</div>
       </div>
     </div>
     <div class="header-clock">
