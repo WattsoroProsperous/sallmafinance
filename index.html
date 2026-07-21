@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- html2canvas — capture PNG -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <style>
     :root {
       --navy:        #0b2d59;
@@ -63,7 +66,7 @@
     }
 
     /* ================================================
-       HEADER — tout en clamp()
+       HEADER
        ================================================ */
     .dash-header {
       background: linear-gradient(110deg, #071e3d 0%, #0b2d59 50%, #134074 100%);
@@ -112,6 +115,42 @@
       margin-top: 0.15rem;
       text-transform: capitalize;
     }
+
+    /* ================================================
+       EXPORT BUTTON
+       ================================================ */
+    .export-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: clamp(6px, 0.7vw, 10px);
+      padding: clamp(0.28rem, 0.55vh, 0.55rem) clamp(0.55rem, 0.9vw, 1.2rem);
+      font-family: inherit;
+      font-size: clamp(0.55rem, 0.7vw, 0.92rem);
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.4px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .export-btn:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.38);
+      color: white;
+    }
+    .export-btn:disabled { opacity: 0.45; cursor: wait; }
+    .export-btn svg {
+      width: clamp(11px, 1.1vw, 16px);
+      height: clamp(11px, 1.1vw, 16px);
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin-anim { animation: spin 0.9s linear infinite; }
 
     /* ================================================
        PAGE TITLE
@@ -170,7 +209,6 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
-    /* ── Card ── */
     .rate-card {
       display: flex;
       align-items: stretch;
@@ -189,7 +227,6 @@
       box-shadow: var(--shadow-lg);
     }
 
-    /* ── Zone gauche ── */
     .card-body {
       flex: 1;
       min-width: 0;
@@ -200,7 +237,6 @@
       gap: clamp(0.5rem, 1.2vh, 1.2rem);
     }
 
-    /* ── Drapeaux ── */
     .card-flags {
       display: flex;
       align-items: center;
@@ -226,7 +262,6 @@
       flex-shrink: 0;
     }
 
-    /* ── Infos paire ── */
     .card-info { min-width: 0; }
 
     .c-pair {
@@ -265,6 +300,7 @@
       align-items: flex-end;
       justify-content: center;
       gap: clamp(0.15rem, 0.3vh, 0.5rem);
+      position: relative; /* for edit icon */
     }
 
     .v-amount {
@@ -276,6 +312,9 @@
       letter-spacing: -0.5px;
       white-space: nowrap;
     }
+
+    /* Editable state */
+    .v-amount:not(.skel) { cursor: pointer; }
 
     .v-unit {
       font-size: clamp(0.48rem, 0.6vw, 0.85rem);
@@ -323,6 +362,43 @@
     @keyframes flashDown { 0% { background: #7f1d1d; } 100% { background: var(--navy); } }
     .vbox.flash-up   { animation: flashUp   0.8s ease-out; }
     .vbox.flash-down { animation: flashDown 0.8s ease-out; }
+
+    /* ── Edit mode ── */
+    .v-edit-icon {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      font-size: clamp(0.55rem, 0.7vw, 0.88rem);
+      color: rgba(255,255,255,0.18);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .vbox:hover .v-edit-icon { opacity: 1; }
+
+    .v-rate-input {
+      display: none;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid rgba(255,255,255,0.5);
+      color: white;
+      font-size: clamp(1.3rem, 2.2vw, 3.8rem);
+      font-weight: 900;
+      font-family: inherit;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.5px;
+      text-align: right;
+      width: 100%;
+      outline: none;
+      line-height: 1;
+      padding: 0.05em 0;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .v-rate-input::-webkit-inner-spin-button,
+    .v-rate-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
 
     /* ================================================
        BOTTOM ROW
@@ -420,14 +496,16 @@
       background: #f1f5f9;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: clamp(0.35rem, 0.7vh, 0.7rem) clamp(0.5rem, 0.7vw, 0.9rem);
+      padding: clamp(0.4rem, 0.8vh, 0.8rem) clamp(0.5rem, 0.7vw, 0.9rem);
       font-size: clamp(0.8rem, 1.1vw, 1.5rem);
       font-weight: 700;
+      line-height: 1.4;
       color: var(--text);
       font-family: inherit;
       text-align: right;
       outline: none;
       transition: border-color 0.2s, background 0.2s;
+      overflow: visible;
     }
 
     .calc-field input:focus { border-color: var(--navy-light); background: white; }
@@ -480,14 +558,11 @@
     /* ================================================
        RESPONSIVE
        ================================================ */
-
-    /* ── Tablette : 2 colonnes ── */
     @media (max-width: 960px) {
       .rates-grid.primary { grid-template-columns: repeat(2, 1fr); }
       .sidebar            { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* ── Mobile : 1 colonne ── */
     @media (max-width: 600px) {
       .rates-grid.primary { grid-template-columns: 1fr; }
       .sidebar            { grid-template-columns: 1fr; }
@@ -507,6 +582,17 @@
         <div class="bname">SALLMA FINANCE</div>
       </div>
     </div>
+
+    <!-- Export PNG -->
+    <button id="exportBtn" class="export-btn" onclick="exportPNG()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      Exporter PNG
+    </button>
+
     <div class="header-clock">
       <div id="clock">--:--:--</div>
       <div id="clockDate">...</div>
@@ -542,7 +628,9 @@
           </div>
         </div>
         <div class="vbox" id="vbox-EUR-XOF">
-          <div class="v-amount skel" id="val-EUR-XOF">---</div>
+          <div class="v-edit-icon">✎</div>
+          <div class="v-amount skel" id="val-EUR-XOF" onclick="startEdit('EUR-XOF')">---</div>
+          <input class="v-rate-input" id="inp-EUR-XOF" type="number" min="0.0001">
           <div class="v-unit">FCFA</div>
           <div class="v-change flat" id="chg-EUR-XOF">
             <span class="arr">▲</span><span id="pct-EUR-XOF">—</span>
@@ -565,7 +653,9 @@
           </div>
         </div>
         <div class="vbox" id="vbox-USD-XOF">
-          <div class="v-amount skel" id="val-USD-XOF">---</div>
+          <div class="v-edit-icon">✎</div>
+          <div class="v-amount skel" id="val-USD-XOF" onclick="startEdit('USD-XOF')">---</div>
+          <input class="v-rate-input" id="inp-USD-XOF" type="number" min="0.0001">
           <div class="v-unit">FCFA</div>
           <div class="v-change flat" id="chg-USD-XOF">
             <span class="arr">▲</span><span id="pct-USD-XOF">—</span>
@@ -588,7 +678,9 @@
           </div>
         </div>
         <div class="vbox" id="vbox-EUR-USD">
-          <div class="v-amount skel" id="val-EUR-USD">---</div>
+          <div class="v-edit-icon">✎</div>
+          <div class="v-amount skel" id="val-EUR-USD" onclick="startEdit('EUR-USD')">---</div>
+          <input class="v-rate-input" id="inp-EUR-USD" type="number" min="0.0001" step="0.0001">
           <div class="v-unit">USD</div>
           <div class="v-change flat" id="chg-EUR-USD">
             <span class="arr">▲</span><span id="pct-EUR-USD">—</span>
@@ -706,10 +798,12 @@
     const REFRESH_SEC = 300;
     const CIRC        = 2 * Math.PI * 30;
 
-    let curRates  = {};
-    let prevRates = {};
-    let loaded    = false;
-    let countdown = REFRESH_SEC;
+    let curRates    = {};
+    let prevRates   = {};
+    let liveRates   = {}; // Always holds latest API rates
+    let customRates = {}; // Tracks manually overridden pairs
+    let loaded      = false;
+    let countdown   = REFRESH_SEC;
 
     function derive(raw) {
       return {
@@ -825,15 +919,31 @@
       const cur  = derive(today);
       const prev = yesterday ? derive(yesterday) : cur;
 
+      // Store live rates separately from user overrides
+      liveRates = { ...cur };
+      prevRates = prev;
+
       ['EUR-XOF', 'USD-XOF', 'EUR-USD'].forEach(id => {
-        const pct = id === 'EUR-XOF' ? 0
-          : prev[id] ? ((cur[id] - prev[id]) / prev[id]) * 100 : 0;
-        updateCard(id, cur[id], pct);
+        if (!customRates[id]) {
+          // Normal live update
+          curRates[id] = cur[id];
+          const pct = id === 'EUR-XOF' ? 0
+            : prev[id] ? ((cur[id] - prev[id]) / prev[id]) * 100 : 0;
+          updateCard(id, cur[id], pct);
+        } else {
+          // Keep custom display, update pct vs refreshed live rate
+          const customVal = curRates[id];
+          const pct = cur[id] ? ((customVal - cur[id]) / cur[id]) * 100 : 0;
+          updateCard(id, customVal, pct);
+        }
       });
 
-      curRates  = cur;
-      prevRates = prev;
-      loaded    = true;
+      // Update inverse rates for calculator (non-custom only)
+      ['XOF-EUR', 'XOF-USD'].forEach(id => {
+        if (!customRates[id]) curRates[id] = cur[id];
+      });
+
+      loaded = true;
 
       const now = new Date();
       const lbl = `Mise à jour : ${now.toLocaleDateString('fr-FR', {
@@ -843,6 +953,170 @@
       if (upEl) upEl.textContent = lbl;
 
       updateCalc();
+    }
+
+    /* ── Edit: click on a rate value to modify it ── */
+    function startEdit(id) {
+      const valEl = document.getElementById(`val-${id}`);
+      const inpEl = document.getElementById(`inp-${id}`);
+      if (!valEl || !inpEl || valEl.classList.contains('skel')) return;
+
+      const dec = id === 'EUR-USD' ? 4 : 2;
+      inpEl.value = curRates[id] != null ? Number(curRates[id]).toFixed(dec) : '';
+      inpEl.step  = id === 'EUR-USD' ? '0.0001' : '1';
+
+      valEl.style.display = 'none';
+      inpEl.style.display = 'block';
+      inpEl.focus();
+      inpEl.select();
+
+      let cancelled = false;
+
+      function onKeydown(e) {
+        if (e.key === 'Enter')  inpEl.blur();
+        if (e.key === 'Escape') { cancelled = true; inpEl.blur(); }
+      }
+
+      function onBlur() {
+        inpEl.removeEventListener('keydown', onKeydown);
+        inpEl.style.display = 'none';
+        valEl.style.display = '';
+
+        if (!cancelled) {
+          const newVal = parseFloat(inpEl.value);
+          if (!isNaN(newVal) && newVal > 0) setCustomRate(id, newVal);
+        }
+      }
+
+      inpEl.addEventListener('keydown', onKeydown);
+      inpEl.addEventListener('blur', onBlur, { once: true });
+    }
+
+    function setCustomRate(id, value) {
+      customRates[id] = true;
+      curRates[id] = value;
+
+      // Percentage = deviation from live market rate
+      const liveVal = liveRates[id];
+      const pct = liveVal ? ((value - liveVal) / liveVal) * 100 : 0;
+
+      updateCard(id, value, pct);
+      updateCalc();
+    }
+
+    function resetRate(id) {
+      delete customRates[id];
+      curRates[id] = liveRates[id];
+
+      const cur  = liveRates[id];
+      const prev = prevRates[id];
+      const pct  = id === 'EUR-XOF' ? 0 : (prev ? ((cur - prev) / prev) * 100 : 0);
+
+      updateCard(id, cur, pct);
+      updateCalc();
+    }
+
+    /* ── Export PNG — toujours en format paysage 1440 px, quel que soit l'écran ── */
+    async function exportPNG() {
+      const btn = document.getElementById('exportBtn');
+      if (!btn) return;
+
+      const EXPORT_W = 1440;
+      const EXPORT_H = 900;
+
+      const origHTML = btn.innerHTML;
+      btn.innerHTML = `<svg class="spin-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Génération…`;
+      btn.disabled = true;
+
+      // Masquer les icônes d'édition
+      const editIcons = document.querySelectorAll('.v-edit-icon');
+      editIcons.forEach(el => { el.style.opacity = '0'; });
+
+      // Forcer le rendu desktop (3 colonnes, largeur 1440 px) pour la capture
+      const overrideStyle = document.createElement('style');
+      overrideStyle.textContent = `
+        body {
+          min-width: ${EXPORT_W}px !important;
+          background-attachment: scroll, scroll !important;
+        }
+        .rates-grid.primary { grid-template-columns: repeat(3, 1fr) !important; }
+        .sidebar            { grid-template-columns: repeat(3, 1fr) !important; }
+      `;
+      document.head.appendChild(overrideStyle);
+
+      // Attendre 2 frames pour que le navigateur re-calcule la mise en page
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      // html2canvas rend mal les <input>/<select> — les remplacer par des <div> le temps de la capture
+      const swapped = [];
+      document.querySelectorAll('.calc-field input, .calc-sel').forEach(el => {
+        const cs = window.getComputedStyle(el);
+        const proxy = document.createElement('div');
+        proxy.textContent = el.tagName === 'SELECT'
+          ? el.options[el.selectedIndex].text
+          : (el.value || '');
+        proxy.style.cssText = [
+          `font-size:${cs.fontSize}`,
+          `font-weight:${cs.fontWeight}`,
+          `font-family:${cs.fontFamily}`,
+          `color:${cs.color}`,
+          `background:${cs.backgroundColor}`,
+          `padding:${cs.padding}`,
+          `border:${cs.border}`,
+          `border-radius:${cs.borderRadius}`,
+          `text-align:${cs.textAlign}`,
+          `width:${cs.width}`,
+          `box-sizing:border-box`,
+          `line-height:1.5`,
+          `display:block`,
+          `margin-bottom:${cs.marginBottom}`,
+        ].join(';');
+        el.parentNode.insertBefore(proxy, el);
+        el.style.display = 'none';
+        swapped.push({ el, proxy });
+      });
+
+      function restoreSwapped() {
+        swapped.forEach(({ el, proxy }) => {
+          el.style.display = '';
+          proxy.remove();
+        });
+      }
+
+      try {
+        const header  = document.querySelector('.dash-header');
+        const headerH = header ? header.getBoundingClientRect().height : 0;
+        const totalH  = Math.max(document.body.scrollHeight, EXPORT_H);
+
+        const canvas = await html2canvas(document.body, {
+          useCORS: true,
+          allowTaint: true,
+          scale: 2,
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth:  EXPORT_W,
+          windowHeight: EXPORT_H,
+          width:  EXPORT_W,
+          y:      headerH,
+          height: totalH - headerH,
+        });
+
+        const link = document.createElement('a');
+        const d = new Date();
+        const stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        link.download = `sallma-taux-${stamp}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (err) {
+        console.error('Export PNG failed:', err);
+        alert('La capture a échoué. Vérifiez la console pour les détails.');
+      } finally {
+        overrideStyle.remove();
+        editIcons.forEach(el => { el.style.opacity = ''; });
+        restoreSwapped();
+        btn.innerHTML = origHTML;
+        btn.disabled = false;
+      }
     }
 
     function tickClock() {
