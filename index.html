@@ -1091,7 +1091,7 @@
         const canvas = await html2canvas(document.body, {
           useCORS: true,
           allowTaint: true,
-          scale: 2,
+          scale: 1,
           scrollX: 0,
           scrollY: 0,
           windowWidth:  EXPORT_W,
@@ -1104,8 +1104,8 @@
         const link = document.createElement('a');
         const d = new Date();
         const stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-        link.download = `sallma-taux-${stamp}.png`;
-        link.href = canvas.toDataURL('image/png');
+        link.download = `sallma-taux-${stamp}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 0.85);
         link.click();
       } catch (err) {
         console.error('Export PNG failed:', err);
